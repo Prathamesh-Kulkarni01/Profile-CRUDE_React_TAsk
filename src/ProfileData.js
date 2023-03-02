@@ -29,7 +29,7 @@ export const ProfileData=[
     "React Js"
   ],
   "Phone": "526-638-3052",
-  "Address": "16th Floor"
+  "Address": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making"
 },
  {
   "id": 2,
@@ -45,7 +45,7 @@ export const ProfileData=[
     "React Js"
   ],
   "Phone": "977-365-7709",
-  "Address": "Suite 8"
+  "Address": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making"
 }, {
   "id": 3,
   "Name": "Ingar",
@@ -60,7 +60,7 @@ export const ProfileData=[
     "React Js"
   ],
   "Phone": "168-576-9712",
-  "Address": "Apt 1504"
+  "Address": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making"
 },
 //  {
 //   "id": 4,

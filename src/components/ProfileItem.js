@@ -67,13 +67,13 @@ export default function ProfileItem(props) {
           }}
           spacing={2}
         >
-          <Grid item spacing={3}>
+          <Grid item >
             <Typography>SSC:{" " + props.data.SSC_Marks}</Typography>
           </Grid>
-          <Grid item spacing={3}>
+          <Grid item >
             <Typography>HSC:{" " + props.data.HSC_Marks}</Typography>
           </Grid>
-          <Grid item spacing={3}>
+          <Grid item >
             {props.data.BTech_Marks && (
               <Typography>BTech:{" " + props.data.BTech_Marks}</Typography>
             )}
@@ -87,9 +87,9 @@ export default function ProfileItem(props) {
           <Typography primary="Skills">Skills</Typography>
         </Box>
         <Box sx={{ m: 1 }}>
-          <Stack direction="row" justifyContent="center" spacing={1}>
+          <Stack direction="row" overflow="auto"  justifyContent="center" spacing={1}>
             {props.data.Skills.map((val) => {
-              return <Chip label={val} />;
+              return <Chip  key={val} label={val} />;
             })}
           </Stack>
         </Box>
@@ -109,15 +109,14 @@ export default function ProfileItem(props) {
       <Divider sx={{ m: 0 }} />
       <CardActions sx={{ float: "right", display: "flex" }} disableSpacing>
         <Tooltip title="Edit">
-          <IconButton>
-            <Edit onClick={() => props.editId(props.data)} />
+          <IconButton onClick={() => props.editId(props.data)}>
+            <Edit  />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton  onClick={() => props.delete(props.data.id)}>
             <Delete
               color="red"
-              onClick={() => props.delete(props.data.id)}
             ></Delete>
           </IconButton>
         </Tooltip>

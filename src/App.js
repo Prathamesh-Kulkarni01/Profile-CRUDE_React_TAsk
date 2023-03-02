@@ -1,13 +1,11 @@
 import "./App.css";
 import { styled } from "@mui/material/styles";
 import ToolBar from "./components/Toolbar";
-import { Box, Button, Grid, Modal} from "@mui/material";
+import { Box, Button, Grid, Modal } from "@mui/material";
 import ProfileItem from "./components/ProfileItem";
 import Form from "./components/Form";
 import { ProfileData } from "./ProfileData";
 import { useEffect, useState } from "react";
-
-
 
 function App() {
   const [savedData, setSavedData] = useState(ProfileData);
@@ -17,28 +15,24 @@ function App() {
   const handleClose = (val) => setOpen(false);
   const handleNewData = (val) => setNewDataFlag(!newDataFlag);
   const [editObj, setEditObj] = useState();
-const [displayForm, setDisplayForm] = useState(false)
+  const [displayForm, setDisplayForm] = useState(false);
 
   useEffect(() => {
     return () => {};
-  }, [handleNewData,setDisplayForm]);
-
+  }, [handleNewData, setDisplayForm]);
 
   const onDelete = (id) => {
     setSavedData((savedData) => savedData.filter((val) => val.id !== id));
   };
 
-
-
   const onEdit = (...obj) => {
     setEditObj(...obj);
     handleOpen();
   };
- 
+
   return (
     <div className="App">
       <ToolBar setDisplayForm={setDisplayForm}></ToolBar>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
 
       <Modal
         open={open}
@@ -46,6 +40,7 @@ const [displayForm, setDisplayForm] = useState(false)
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         justifyContent="center"
+      
       >
         <Box sx={style}>
           <Form handle={setOpen} obj={editObj} newData={handleNewData}></Form>
@@ -53,12 +48,16 @@ const [displayForm, setDisplayForm] = useState(false)
       </Modal>
 
       <Container>
-        {displayForm===true?<Form setDisplayForm={setDisplayForm} newData={handleNewData}></Form>:""}
-        <Grid container sx={{ justifyContent: "center" }}>
+        {displayForm === true ? (
+          <Form setDisplayForm={setDisplayForm} newData={handleNewData}></Form>
+        ) : (
+          ""
+        )}
+        <Grid container spacing={0} sx={{ justifyContent: "center" }}>
           {savedData.map((val) => {
             return (
               <ProfileItem
-                key={val._id}
+                key={val.id}
                 data={val}
                 delete={onDelete}
                 editId={onEdit}
@@ -76,7 +75,7 @@ const Container = styled("div")(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
   padding: "20px",
-  minHeight:"100vh",
+  minHeight: "100vh",
   justifyContent: "center",
 
   backgroundColor: "#edf1ff",
