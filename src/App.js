@@ -1,11 +1,12 @@
 import "./App.css";
 import { styled } from "@mui/material/styles";
 import ToolBar from "./components/Toolbar";
-import { Box, Button, Grid, Modal } from "@mui/material";
+import { Box, Button, Grid, IconButton, Modal } from "@mui/material";
 import ProfileItem from "./components/ProfileItem";
 import Form from "./components/Form";
 import { ProfileData } from "./ProfileData";
 import { useEffect, useState } from "react";
+import { AddCircle } from "@mui/icons-material";
 
 function App() {
   const [savedData, setSavedData] = useState(ProfileData);
@@ -65,7 +66,20 @@ function App() {
             );
           })}
         </Grid>
+        <IconButton
+              size="large"
+           
+              
+              aria-label="show more"
+              sx={{  height:'60px', width:"60px",position:'fixed',right:"30px",bottom:"40px",zIndex:'10000',backgroundColor:'#ffffff',boxShadow:'5px 5px 10px 3px   gray'}}
+              onClick={() => setDisplayForm(true)}
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <AddCircle></AddCircle>
+            </IconButton>
       </Container>
+     
     </div>
   );
 }
