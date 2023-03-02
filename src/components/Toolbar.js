@@ -1,4 +1,4 @@
-import * as React from "react";
+import  React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,6 +8,7 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import { AddCircle, FilterList, Person2Rounded } from "@mui/icons-material";
+import { ProfileData } from "../ProfileData";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -50,7 +51,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
 export default function ToolBar(props) {
+  
+
+
+const handleSearch=(query)=>{
+  props.data(ProfileData)
+props.data(data=>(data.filter(val=>{
+  if(val.Name.toUpperCase().indexOf(query.toUpperCase())> -1){
+return val;
+  }
+})))
+}
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -72,6 +86,7 @@ export default function ToolBar(props) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={(e)=>handleSearch(e.target.value)}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />

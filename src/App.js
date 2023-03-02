@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="App">
-      <ToolBar setDisplayForm={setDisplayForm}></ToolBar>
+      <ToolBar data={setSavedData} setDisplayForm={setDisplayForm}></ToolBar>
 
       <Modal
         open={open}

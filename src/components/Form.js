@@ -163,14 +163,14 @@ export const Form1 = (props) => {
       </div>
       <Button
         variant="contained"
-        sx={{ margin:'2px 125px' }}
+        sx={{ margin:'2px 125px',height:'35px' ,minWidth:'80px'}}
         
         onClick={() => {
         name!==""||props.obj!==undefined?
           props.setForm(2):alert("You Have to Enter Name Atleast")
         }}
       >
-        Next &gt;
+        Next&gt;
       </Button>
     </div>
   );
@@ -228,7 +228,7 @@ export function Form2(props) {
         sx={{ margin:'2px 125px' }}
         onClick={() => props.setForm(3)}
       >
-        Next &gt;
+        Next&gt;
       </Button>
     </div>
   );

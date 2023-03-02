@@ -67,13 +67,13 @@ export default function ProfileItem(props) {
           }}
           spacing={2}
         >
-          <Grid item >
+          <Grid item>
             <Typography>SSC:{" " + props.data.SSC_Marks}</Typography>
           </Grid>
-          <Grid item >
+          <Grid item>
             <Typography>HSC:{" " + props.data.HSC_Marks}</Typography>
           </Grid>
-          <Grid item >
+          <Grid item>
             {props.data.BTech_Marks && (
               <Typography>BTech:{" " + props.data.BTech_Marks}</Typography>
             )}
@@ -87,9 +87,14 @@ export default function ProfileItem(props) {
           <Typography primary="Skills">Skills</Typography>
         </Box>
         <Box sx={{ m: 1 }}>
-          <Stack direction="row" overflow="auto"  justifyContent="center" spacing={1}>
+          <Stack
+            direction="row"
+            overflow="auto"
+            justifyContent="center"
+            spacing={1}
+          >
             {props.data.Skills.map((val) => {
-              return <Chip  key={val} label={val} />;
+              return <Chip key={val} label={val} />;
             })}
           </Stack>
         </Box>
@@ -103,21 +108,19 @@ export default function ProfileItem(props) {
           <Typography primary="Skills">Address</Typography>
         </Box>
         <Typography variant="body2" sx={{ m: 1 }} color="text.secondary">
-          {props.data.Address.substring(0, 140)}
+          {props.data.Address&&props.data.Address.substring(0, 140)}
         </Typography>
       </CardContent>
       <Divider sx={{ m: 0 }} />
       <CardActions sx={{ float: "right", display: "flex" }} disableSpacing>
         <Tooltip title="Edit">
           <IconButton onClick={() => props.editId(props.data)}>
-            <Edit  />
+            <Edit />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
-          <IconButton  onClick={() => props.delete(props.data.id)}>
-            <Delete
-              color="red"
-            ></Delete>
+          <IconButton onClick={() => props.delete(props.data.id)}>
+            <Delete color="red"></Delete>
           </IconButton>
         </Tooltip>
       </CardActions>
