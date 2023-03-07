@@ -13,7 +13,7 @@ import {
   FormGroup,
   FormLabel,
 } from "@mui/material";
-import { ProfileData } from "../ProfileData";
+
 
 const steps = ["Personal ", "Academics ", "Contact"];
 
@@ -35,20 +35,30 @@ export default function Form(props) {
   const [formNo, setFormNo] = React.useState(1);
   const [formData, setFormData] = React.useState({});
 
+
+
   const handleOnSubmit = () => {
     if (props.obj !== undefined) {
-      const index = ProfileData.findIndex((val) => val.id === props.obj.id);
-      ProfileData[index] = {
-        ...ProfileData[index],
+      props.addData(data=>{
+        const newData=[...data]
+       const index = newData.findIndex((val) => val.id === props.obj.id);
+      newData[index] = {
+        ...newData[index],
         ...formData,
       };
+      
+        return newData
+      })
       props.handle(false);
       return;
     } else {
+  
       setFormData((data) => ({ ...data, id: uuid() }));
-      ProfileData.unshift(formData);
+      console.log(formData);
+      props.addData(data=>{const newData=[...data];newData.unshift(formData); return newData })
     }
-    props.newData(false);
+    
+
     clearForm();
   };
 
@@ -83,10 +93,10 @@ export default function Form(props) {
         ></Form1>
       )}
       {formNo === 2 && (
-        <Form2 setFormData={setFormData} setForm={setFormNo}></Form2>
+        <Form2   obj={props.obj} setFormData={setFormData} setForm={setFormNo}></Form2>
       )}
       {formNo === 3 && (
-        <Form3 setFormData={setFormData} setForm={setFormNo}></Form3>
+        <Form3    obj={props.obj} setFormData={setFormData} setForm={setFormNo}></Form3>
       )}
       <Box>
       {formNo === 4 && (
@@ -101,7 +111,7 @@ export default function Form(props) {
       
       <Button
         sx={{ marginTop: "1px  " }}
-        onClick={() => props.setDisplayForm(false)}
+        onClick={() => {props?.handle&&props.handle(false); props.setDisplayForm(false)}}
       >
         Cancle
       </Button>
@@ -112,6 +122,7 @@ export default function Form(props) {
 
 export const Form1 = (props) => {
   const [name, setName] = useState("")
+  const dateFormatter = Intl.DateTimeFormat('sv-SE');
   return (
     <div>
       {" "}
@@ -137,8 +148,9 @@ export const Form1 = (props) => {
           label="BirthDate"
           name="BirthDate"
           type="date"
+          value="2017-05-03"
           defaultValue={
-            props.obj !== undefined ? props.obj.BirthDate : "2017-05-24"
+            props.obj!==undefined &&props.obj.BirthDate !== undefined ?dateFormatter.format(new Date(props.obj.BirthDate)) : "2017-05-24"
           }
           onChange={(e) =>
             props.setFormData((Data) => ({
@@ -149,9 +161,11 @@ export const Form1 = (props) => {
         />
         <TextField
           required
-          id="outlined-required"
+          id="outlined-multiline-flexible"
           label="About"
           name="About"
+          multiline
+          maxRows={4}
           defaultValue={props.obj !== undefined ? props.obj.About : ""}
           onChange={(e) =>
             props.setFormData((Data) => ({
@@ -213,20 +227,27 @@ export function Form2(props) {
           name="BTech_Marks"
           type="number"
           defaultValue={props.obj !== undefined ? props.obj.BTech_Marks : ""}
-          onChange={(e) =>
+          onChange={(e) =>{
             props.setFormData((Data) => ({
               ...Data,
               [e.target.name]: e.target.value,
-            }))
+            }))}
           }
         />
-        <SkillsCkeckBox formData={props.setFormData}></SkillsCkeckBox>
+        <SkillsCkeckBox skill={props.obj} formData={props.setFormData}></SkillsCkeckBox>
       </div>
 
       <Button
         variant="contained"
         sx={{ margin:'2px 125px' }}
-        onClick={() => props.setForm(3)}
+        onClick={() =>{if(props.obj){props.setForm(3); return }props.setFormData(data=>{
+         
+         if( data&&data.Skills&&data.Skills.length>0){
+          props.setForm(3)}else{
+            alert("You have to add atleast one skill")
+          }
+        return data;
+        })}}
       >
         Next&gt;
       </Button>
@@ -277,12 +298,16 @@ export const Form3 = (props) => {
   );
 };
 
-export const SkillsCkeckBox = (props) => {
-  const [checkList, setCheckList] = useState([]);
+export const SkillsCkeckBox = (props) => {  
+  const [checkList, setCheckList] = useState(props.skill!==undefined?props.skill.Skills:[]);
   const handleChange = (e) => {
     if (!e.target.checked) {
       if (checkList.includes(e.target.name)) {
-        setCheckList((data) => data.filter((item) => item !== e.target.name));
+        if(checkList.length===1){
+alert("You to keep atleast one skill...Select any other skills to remove this skill")
+        }else{
+          setCheckList((data) => data.filter((item) => item !== e.target.name));
+        }
       }
     } else {
       checkList.push(e.target.name);
@@ -313,12 +338,12 @@ export const SkillsCkeckBox = (props) => {
           }}
         >
           <FormControlLabel
-            control={<Checkbox onChange={handleChange} name="Java" />}
+            control={<Checkbox checked={checkList.includes("Java")?true:false} onChange={handleChange} name="Java" />}
             label="Java"
           />
 
           <FormControlLabel
-            control={<Checkbox onChange={handleChange} name="Data Stracture" />}
+            control={<Checkbox checked={checkList.includes("Data Stracture")?true:false} onChange={handleChange} name="Data Stracture" />}
             label="Data Stracture"
           />
         </FormGroup>
@@ -331,11 +356,11 @@ export const SkillsCkeckBox = (props) => {
           }}
         >
           <FormControlLabel
-            control={<Checkbox onChange={handleChange} name="JavaScript" />}
+            control={<Checkbox checked={checkList.includes("JavaScript")?true:false} onChange={handleChange} name="JavaScript" />}
             label="JavaScript"
           />
           <FormControlLabel
-            control={<Checkbox onChange={handleChange} name="React Js" />}
+            control={<Checkbox  checked={checkList.includes("React Js")?true:false} onChange={handleChange} name="React Js" />}
             label="React Js"
           />
         </FormGroup>
@@ -348,11 +373,11 @@ export const SkillsCkeckBox = (props) => {
           }}
         >
           <FormControlLabel
-            control={<Checkbox onChange={handleChange} name="Data Science" />}
+            control={<Checkbox checked={checkList.includes("Data Science")?true:false} onChange={handleChange} name="Data Science" />}
             label="Data Science"
           />
           <FormControlLabel
-            control={<Checkbox onChange={handleChange} name="Android" />}
+            control={<Checkbox checked={checkList.includes("Android")?true:false} onChange={handleChange} name="Android" />}
             label="Android"
           />
         </FormGroup>

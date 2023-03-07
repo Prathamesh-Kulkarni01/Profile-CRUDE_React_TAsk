@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { AddCircle } from "@mui/icons-material";
 
 function App() {
-  const [savedData, setSavedData] = useState(ProfileData);
+  const [profiles, setProfiles] = useState(ProfileData);
   const [newDataFlag, setNewDataFlag] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -23,17 +23,17 @@ function App() {
   }, [handleNewData, setDisplayForm]);
 
   const onDelete = (id) => {
-    setSavedData((savedData) => savedData.filter((val) => val.id !== id));
+    setProfiles((savedData) => savedData.filter((val) => val.id !== id));
   };
 
   const onEdit = (...obj) => {
     setEditObj(...obj);
     handleOpen();
   };
-
+console.log(profiles);
   return (
     <div className="App">
-      <ToolBar data={setSavedData} setDisplayForm={setDisplayForm}></ToolBar>
+      <ToolBar data={setProfiles} setDisplayForm={setDisplayForm}></ToolBar>
 
       <Modal
         open={open}
@@ -44,18 +44,18 @@ function App() {
       
       >
         <Box sx={style}>
-          <Form handle={setOpen} obj={editObj} newData={handleNewData}></Form>
+          <Form addData={setProfiles}  handle={setOpen} obj={editObj} newData={handleNewData}></Form>
         </Box>
       </Modal>
 
       <Container>
         {displayForm === true ? (
-          <Form setDisplayForm={setDisplayForm} newData={handleNewData}></Form>
+          <Form addData={setProfiles} setDisplayForm={setDisplayForm} newData={handleNewData}></Form>
         ) : (
           ""
         )}
         <Grid container spacing={0} sx={{ justifyContent: "center" }}>
-          {savedData.map((val) => {
+          {profiles.map((val) => {
             return (
               <ProfileItem
                 key={val.id}

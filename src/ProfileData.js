@@ -18,7 +18,7 @@ export const ProfileData=[
     {
   "id": 1,
   "Name": "Ardelle",
-  "BirthDate": "31/8/2022",
+  "BirthDate": "2017-05-03",
   "About": "Remov breast tissu expan",
   "SSC_Marks": 94,
   "HSC_Marks": 56,
@@ -34,7 +34,7 @@ export const ProfileData=[
  {
   "id": 2,
   "Name": "Nessa",
-  "BirthDate": "29/1/2023",
+  "BirthDate": "2017-05-03",
   "About": "Other diaphragm repair",
   "SSC_Marks": 76,
   "HSC_Marks": 5,
@@ -49,7 +49,7 @@ export const ProfileData=[
 }, {
   "id": 3,
   "Name": "Ingar",
-  "BirthDate": "13/12/2022",
+  "BirthDate": "2017-05-03",
   "About": "Particul teleradioth NEC",
   "SSC_Marks": 8,
   "HSC_Marks": 20,

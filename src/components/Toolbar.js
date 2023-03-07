@@ -57,7 +57,7 @@ export default function ToolBar(props) {
 
 
 const handleSearch=(query)=>{
-  props.data(ProfileData)
+
 props.data(data=>(data.filter(val=>{
   if(val.Name.toUpperCase().indexOf(query.toUpperCase())> -1){
 return val;
@@ -65,6 +65,9 @@ return val;
 })))
 }
 
+const handleFilter=(query)=>{
+
+}
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -95,6 +98,7 @@ return val;
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={()=>handleFilter()}
             >
               <Badge color="error">
                 <FilterList></FilterList>
