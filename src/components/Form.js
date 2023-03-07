@@ -14,7 +14,6 @@ import {
   FormLabel,
 } from "@mui/material";
 
-
 const steps = ["Personal ", "Academics ", "Contact"];
 
 export function Steps(props) {
@@ -35,29 +34,28 @@ export default function Form(props) {
   const [formNo, setFormNo] = React.useState(1);
   const [formData, setFormData] = React.useState({});
 
-
-
   const handleOnSubmit = () => {
     if (props.obj !== undefined) {
-      props.addData(data=>{
-        const newData=[...data]
-       const index = newData.findIndex((val) => val.id === props.obj.id);
-      newData[index] = {
-        ...newData[index],
-        ...formData,
-      };
-      
-        return newData
-      })
+      props.addData((data) => {
+        const newData = [...data];
+        const index = newData.findIndex((val) => val.id === props.obj.id);
+        newData[index] = {
+          ...newData[index],
+          ...formData,
+        };
+
+        return newData;
+      });
       props.handle(false);
       return;
     } else {
-  
-      setFormData((data) => ({ ...data, id: uuid() }));
-      console.log(formData);
-      props.addData(data=>{const newData=[...data];newData.unshift(formData); return newData })
+      formData.id=uuid() 
+      props.addData((data) => {
+        const newData = [...data];
+        newData.unshift(formData);
+        return newData;
+      });
     }
-    
 
     clearForm();
   };
@@ -71,8 +69,8 @@ export default function Form(props) {
     <Box
       component="form"
       justifyContent="center"
-    display="flex"
-    flexDirection="column"
+      display="flex"
+      flexDirection="column"
       alignItems="center"
       sx={{
         "& .MuiTextField-root": { m: 1, width: "25ch" },
@@ -93,54 +91,73 @@ export default function Form(props) {
         ></Form1>
       )}
       {formNo === 2 && (
-        <Form2   obj={props.obj} setFormData={setFormData} setForm={setFormNo}></Form2>
+        <Form2
+          obj={props.obj}
+          setFormData={setFormData}
+          setForm={setFormNo}
+        ></Form2>
       )}
       {formNo === 3 && (
-        <Form3    obj={props.obj} setFormData={setFormData} setForm={setFormNo}></Form3>
+        <Form3
+          obj={props.obj}
+          setFormData={setFormData}
+          setForm={setFormNo}
+        ></Form3>
       )}
       <Box>
-      {formNo === 4 && (
+        {formNo === 4 && (
+          <Button
+            variant="contained"
+            sx={{ m: 2 }}
+            onClick={() => handleOnSubmit()}
+          >
+            Confirm ? &gt;
+          </Button>
+        )}
+
         <Button
-          variant="contained"
-          sx={{ m: 2 }}
-          onClick={() => handleOnSubmit()}
+          sx={{ marginTop: "1px  " }}
+          onClick={() => {
+            props?.handle && props.handle(false);
+            props.setDisplayForm!==undefined&&props.setDisplayForm(false);
+          }}
         >
-          Confirm ? &gt;
+          Cancle
         </Button>
-      )}
-      
-      <Button
-        sx={{ marginTop: "1px  " }}
-        onClick={() => {props?.handle&&props.handle(false); props.setDisplayForm(false)}}
-      >
-        Cancle
-      </Button>
       </Box>
     </Box>
   );
 }
 
 export const Form1 = (props) => {
-  const [name, setName] = useState("")
-  const dateFormatter = Intl.DateTimeFormat('sv-SE');
+  const [name, setName] = useState("");
+  const dateFormatter = Intl.DateTimeFormat("sv-SE");
   return (
     <div>
       {" "}
-      <div style={{display:'flex',flexWrap:'wrap',alignItems:'center',justifyContent:'center'}}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "center",
+          maxWidth: "800px",
+        }}
+      >
         <TextField
           required
           id="outlined-required"
           label="Name"
           name="Name"
+          style={{ width: "300px" }}
           defaultValue={props.obj !== undefined ? props.obj.Name : ""}
-          onChange={(e) =>{
+          onChange={(e) => {
             props.setFormData((Data) => ({
               ...Data,
               [e.target.name]: e.target.value,
             }));
-            setName(e.target.value)
-          }
-          }
+            setName(e.target.value);
+          }}
         />
 
         <TextField
@@ -148,9 +165,11 @@ export const Form1 = (props) => {
           label="BirthDate"
           name="BirthDate"
           type="date"
-          value="2017-05-03"
+          style={{ width: "300px" }}
           defaultValue={
-            props.obj!==undefined &&props.obj.BirthDate !== undefined ?dateFormatter.format(new Date(props.obj.BirthDate)) : "2017-05-24"
+            props.obj !== undefined && props.obj.BirthDate !== undefined
+              ? dateFormatter.format(new Date(props.obj.BirthDate))
+              : "2017-05-24"
           }
           onChange={(e) =>
             props.setFormData((Data) => ({
@@ -161,11 +180,12 @@ export const Form1 = (props) => {
         />
         <TextField
           required
-          id="outlined-multiline-flexible"
+          id="outlined-multiline-static"
           label="About"
           name="About"
           multiline
-          maxRows={4}
+          style={{ width: "300px" }}
+          minRows={4}
           defaultValue={props.obj !== undefined ? props.obj.About : ""}
           onChange={(e) =>
             props.setFormData((Data) => ({
@@ -177,11 +197,11 @@ export const Form1 = (props) => {
       </div>
       <Button
         variant="contained"
-        sx={{ margin:'2px 125px',height:'35px' ,minWidth:'80px'}}
-        
+        sx={{ margin: "2px 125px", height: "35px", minWidth: "80px" }}
         onClick={() => {
-        name!==""||props.obj!==undefined?
-          props.setForm(2):alert("You Have to Enter Name Atleast")
+          name !== "" || props.obj !== undefined
+            ? props.setForm(2)
+            : alert("You Have to Enter Name Atleast");
         }}
       >
         Next&gt;
@@ -227,27 +247,36 @@ export function Form2(props) {
           name="BTech_Marks"
           type="number"
           defaultValue={props.obj !== undefined ? props.obj.BTech_Marks : ""}
-          onChange={(e) =>{
+          onChange={(e) => {
             props.setFormData((Data) => ({
               ...Data,
               [e.target.name]: e.target.value,
-            }))}
-          }
+            }));
+          }}
         />
-        <SkillsCkeckBox skill={props.obj} formData={props.setFormData}></SkillsCkeckBox>
+        <SkillsCkeckBox
+          skill={props.obj}
+          formData={props.setFormData}
+        ></SkillsCkeckBox>
       </div>
 
       <Button
         variant="contained"
-        sx={{ margin:'2px 125px' }}
-        onClick={() =>{if(props.obj){props.setForm(3); return }props.setFormData(data=>{
-         
-         if( data&&data.Skills&&data.Skills.length>0){
-          props.setForm(3)}else{
-            alert("You have to add atleast one skill")
+        sx={{ margin: "2px 125px" }}
+        onClick={() => {
+          if (props.obj) {
+            props.setForm(3);
+            return;
           }
-        return data;
-        })}}
+          props.setFormData((data) => {
+            if (data && data.Skills && data.Skills.length > 0) {
+              props.setForm(3);
+            } else {
+              alert("You have to add atleast one skill");
+            }
+            return data;
+          });
+        }}
       >
         Next&gt;
       </Button>
@@ -257,12 +286,13 @@ export function Form2(props) {
 
 export const Form3 = (props) => {
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <div>
         <TextField
           id="outlined-password-input"
           label="Phone"
           name="Phone"
+          style={{ width: "300px" }}
           type="phone"
           defaultValue={props.obj !== undefined ? props.obj.Phone : ""}
           onChange={(e) =>
@@ -274,8 +304,11 @@ export const Form3 = (props) => {
         />
 
         <TextField
-          id="outlined-password-input"
           label="Address"
+          id="outlined-multiline-static"
+          multiline
+          style={{ width: "300px" }}
+          maxRows={8}
           name="Address"
           type="address"
           defaultValue={props.obj !== undefined ? props.obj.Address : ""}
@@ -289,7 +322,7 @@ export const Form3 = (props) => {
       </div>
       <Button
         variant="contained"
-        sx={{ margin:'2px 125px' }}
+        sx={{ margin: "2px 125px" }}
         onClick={() => props.setForm(4)}
       >
         Submit
@@ -298,14 +331,18 @@ export const Form3 = (props) => {
   );
 };
 
-export const SkillsCkeckBox = (props) => {  
-  const [checkList, setCheckList] = useState(props.skill!==undefined?props.skill.Skills:[]);
+export const SkillsCkeckBox = (props) => {
+  const [checkList, setCheckList] = useState(
+    props.skill !== undefined ? props.skill.Skills : []
+  );
   const handleChange = (e) => {
     if (!e.target.checked) {
       if (checkList.includes(e.target.name)) {
-        if(checkList.length===1){
-alert("You to keep atleast one skill...Select any other skills to remove this skill")
-        }else{
+        if (checkList.length === 1) {
+          alert(
+            "You to keep atleast one skill...Select any other skills to remove this skill"
+          );
+        } else {
           setCheckList((data) => data.filter((item) => item !== e.target.name));
         }
       }
@@ -338,12 +375,24 @@ alert("You to keep atleast one skill...Select any other skills to remove this sk
           }}
         >
           <FormControlLabel
-            control={<Checkbox checked={checkList.includes("Java")?true:false} onChange={handleChange} name="Java" />}
+            control={
+              <Checkbox
+                checked={checkList.includes("Java") ? true : false}
+                onChange={handleChange}
+                name="Java"
+              />
+            }
             label="Java"
           />
 
           <FormControlLabel
-            control={<Checkbox checked={checkList.includes("Data Stracture")?true:false} onChange={handleChange} name="Data Stracture" />}
+            control={
+              <Checkbox
+                checked={checkList.includes("Data Stracture") ? true : false}
+                onChange={handleChange}
+                name="Data Stracture"
+              />
+            }
             label="Data Stracture"
           />
         </FormGroup>
@@ -356,11 +405,23 @@ alert("You to keep atleast one skill...Select any other skills to remove this sk
           }}
         >
           <FormControlLabel
-            control={<Checkbox checked={checkList.includes("JavaScript")?true:false} onChange={handleChange} name="JavaScript" />}
+            control={
+              <Checkbox
+                checked={checkList.includes("JavaScript") ? true : false}
+                onChange={handleChange}
+                name="JavaScript"
+              />
+            }
             label="JavaScript"
           />
           <FormControlLabel
-            control={<Checkbox  checked={checkList.includes("React Js")?true:false} onChange={handleChange} name="React Js" />}
+            control={
+              <Checkbox
+                checked={checkList.includes("React Js") ? true : false}
+                onChange={handleChange}
+                name="React Js"
+              />
+            }
             label="React Js"
           />
         </FormGroup>
@@ -373,11 +434,23 @@ alert("You to keep atleast one skill...Select any other skills to remove this sk
           }}
         >
           <FormControlLabel
-            control={<Checkbox checked={checkList.includes("Data Science")?true:false} onChange={handleChange} name="Data Science" />}
+            control={
+              <Checkbox
+                checked={checkList.includes("Data Science") ? true : false}
+                onChange={handleChange}
+                name="Data Science"
+              />
+            }
             label="Data Science"
           />
           <FormControlLabel
-            control={<Checkbox checked={checkList.includes("Android")?true:false} onChange={handleChange} name="Android" />}
+            control={
+              <Checkbox
+                checked={checkList.includes("Android") ? true : false}
+                onChange={handleChange}
+                name="Android"
+              />
+            }
             label="Android"
           />
         </FormGroup>

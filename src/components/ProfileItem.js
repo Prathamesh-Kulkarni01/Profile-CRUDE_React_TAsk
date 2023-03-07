@@ -68,10 +68,14 @@ export default function ProfileItem(props) {
           spacing={2}
         >
           <Grid item>
+          {props.data.SSC_Marks && (
             <Typography>SSC:{" " + props.data.SSC_Marks}</Typography>
+            )}
           </Grid>
           <Grid item>
+          {props.data.HSC_Marks && (
             <Typography>HSC:{" " + props.data.HSC_Marks}</Typography>
+          )}
           </Grid>
           <Grid item>
             {props.data.BTech_Marks && (

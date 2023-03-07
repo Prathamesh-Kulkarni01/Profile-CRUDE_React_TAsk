@@ -1,14 +1,11 @@
-import  React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
-import { AddCircle, FilterList, Person2Rounded } from "@mui/icons-material";
-import { ProfileData } from "../ProfileData";
+import { AddCircle, Person2Rounded } from "@mui/icons-material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,23 +48,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
 export default function ToolBar(props) {
-  
+  const handleSearch = (query) => {
+    props.data((data) =>
+      data.filter((val) => 
+        val.Name.toUpperCase().indexOf(query.toUpperCase()) > -1)
+    );
+  };
 
-
-const handleSearch=(query)=>{
-
-props.data(data=>(data.filter(val=>{
-  if(val.Name.toUpperCase().indexOf(query.toUpperCase())> -1){
-return val;
-  }
-})))
-}
-
-const handleFilter=(query)=>{
-
-}
+ 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -88,23 +77,14 @@ const handleFilter=(query)=>{
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              width="100%"
+              style={{ width: "100%" }}
               inputProps={{ "aria-label": "search" }}
-              onChange={(e)=>handleSearch(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-              onClick={()=>handleFilter()}
-            >
-              <Badge color="error">
-                <FilterList></FilterList>
-              </Badge>
-            </IconButton>
-          </Box>
+
           <Box sx={{ display: { xs: "flex" } }}>
             <IconButton
               size="large"

@@ -1,26 +1,26 @@
-import "./App.css";
 import { styled } from "@mui/material/styles";
-import ToolBar from "./components/Toolbar";
-import { Box, Button, Grid, IconButton, Modal } from "@mui/material";
+import { Box, Grid, IconButton, Modal } from "@mui/material";
+
+import { useState } from "react";
+
+import { ProfileData } from "./ProfileData";
 import ProfileItem from "./components/ProfileItem";
 import Form from "./components/Form";
-import { ProfileData } from "./ProfileData";
-import { useEffect, useState } from "react";
+import ToolBar from "./components/Toolbar";
+
 import { AddCircle } from "@mui/icons-material";
+
+import "./App.css";
 
 function App() {
   const [profiles, setProfiles] = useState(ProfileData);
   const [newDataFlag, setNewDataFlag] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = (val) => setOpen(false);
-  const handleNewData = (val) => setNewDataFlag(!newDataFlag);
+  const handleClose = () => setOpen(false);
+  const handleNewData = () => setNewDataFlag(!newDataFlag);
   const [editObj, setEditObj] = useState();
   const [displayForm, setDisplayForm] = useState(false);
-
-  useEffect(() => {
-    return () => {};
-  }, [handleNewData, setDisplayForm]);
 
   const onDelete = (id) => {
     setProfiles((savedData) => savedData.filter((val) => val.id !== id));
@@ -30,7 +30,7 @@ function App() {
     setEditObj(...obj);
     handleOpen();
   };
-console.log(profiles);
+
   return (
     <div className="App">
       <ToolBar data={setProfiles} setDisplayForm={setDisplayForm}></ToolBar>
@@ -40,17 +40,24 @@ console.log(profiles);
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        justifyContent="center"
-      
       >
         <Box sx={style}>
-          <Form addData={setProfiles}  handle={setOpen} obj={editObj} newData={handleNewData}></Form>
+          <Form
+            addData={setProfiles}
+            handle={setOpen}
+            obj={editObj}
+            newData={handleNewData}
+          ></Form>
         </Box>
       </Modal>
 
       <Container>
         {displayForm === true ? (
-          <Form addData={setProfiles} setDisplayForm={setDisplayForm} newData={handleNewData}></Form>
+          <Form
+            addData={setProfiles}
+            setDisplayForm={setDisplayForm}
+            newData={handleNewData}
+          ></Form>
         ) : (
           ""
         )}
@@ -58,7 +65,7 @@ console.log(profiles);
           {profiles.map((val) => {
             return (
               <ProfileItem
-                key={val.id}
+                key={val.id + val.Name}
                 data={val}
                 delete={onDelete}
                 editId={onEdit}
@@ -67,19 +74,25 @@ console.log(profiles);
           })}
         </Grid>
         <IconButton
-              size="large"
-           
-              
-              aria-label="show more"
-              sx={{  height:'60px', width:"60px",position:'fixed',right:"30px",bottom:"40px",zIndex:'10000',backgroundColor:'#ffffff',boxShadow:'5px 5px 10px 3px   gray'}}
-              onClick={() => setDisplayForm(true)}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AddCircle></AddCircle>
-            </IconButton>
+          size="large"
+          aria-label="show more"
+          sx={{
+            height: "60px",
+            width: "60px",
+            position: "fixed",
+            right: "30px",
+            bottom: "40px",
+            zIndex: "10000",
+            backgroundColor: "#ffffff",
+            boxShadow: "5px 5px 10px 3px   gray",
+          }}
+          onClick={() => setDisplayForm(true)}
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AddCircle></AddCircle>
+        </IconButton>
       </Container>
-     
     </div>
   );
 }
