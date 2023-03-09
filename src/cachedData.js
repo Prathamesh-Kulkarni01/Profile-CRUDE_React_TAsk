@@ -1,4 +1,4 @@
-export const ProfileData=[
+export const cachedProfiles=[
     {
         "Name": "Prathamesh",
         "BirthDate": "2017-05-03",

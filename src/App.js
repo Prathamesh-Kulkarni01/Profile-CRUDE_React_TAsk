@@ -1,33 +1,31 @@
 import { styled } from "@mui/material/styles";
 import { Box, Grid, IconButton, Modal } from "@mui/material";
+import { AddCircle } from "@mui/icons-material";
 
 import { useState } from "react";
 
-import { ProfileData } from "./ProfileData";
 import ProfileItem from "./components/ProfileItem";
 import Form from "./components/Form";
 import ToolBar from "./components/Toolbar";
 
-import { AddCircle } from "@mui/icons-material";
+import { cachedProfiles } from "./cachedData";
 
 import "./App.css";
 
 function App() {
-  const [profiles, setProfiles] = useState(ProfileData);
-  const [newDataFlag, setNewDataFlag] = useState(false);
+  const [profiles, setProfiles] = useState(cachedProfiles);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleNewData = () => setNewDataFlag(!newDataFlag);
-  const [editObj, setEditObj] = useState();
+  const [currentProfileData, setcurrentProfileData] = useState();
   const [displayForm, setDisplayForm] = useState(false);
 
-  const onDelete = (id) => {
+  const handleDeleteProfile = (id) => {
     setProfiles((savedData) => savedData.filter((val) => val.id !== id));
   };
 
-  const onEdit = (...obj) => {
-    setEditObj(...obj);
+  const handleEditProfile = (...currentProfileData) => {
+    setcurrentProfileData(...currentProfileData);
     handleOpen();
   };
 
@@ -45,8 +43,7 @@ function App() {
           <Form
             addData={setProfiles}
             handle={setOpen}
-            obj={editObj}
-            newData={handleNewData}
+            currentProfileData={currentProfileData}
           ></Form>
         </Box>
       </Modal>
@@ -56,7 +53,6 @@ function App() {
           <Form
             addData={setProfiles}
             setDisplayForm={setDisplayForm}
-            newData={handleNewData}
           ></Form>
         ) : (
           ""
@@ -67,8 +63,8 @@ function App() {
               <ProfileItem
                 key={val.id + val.Name}
                 data={val}
-                delete={onDelete}
-                editId={onEdit}
+                onDelete={handleDeleteProfile}
+                onEditById={handleEditProfile}
               ></ProfileItem>
             );
           })}

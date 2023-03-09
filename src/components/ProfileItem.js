@@ -68,14 +68,14 @@ export default function ProfileItem(props) {
           spacing={2}
         >
           <Grid item>
-          {props.data.SSC_Marks && (
-            <Typography>SSC:{" " + props.data.SSC_Marks}</Typography>
+            {props.data.SSC_Marks && (
+              <Typography>SSC:{" " + props.data.SSC_Marks}</Typography>
             )}
           </Grid>
           <Grid item>
-          {props.data.HSC_Marks && (
-            <Typography>HSC:{" " + props.data.HSC_Marks}</Typography>
-          )}
+            {props.data.HSC_Marks && (
+              <Typography>HSC:{" " + props.data.HSC_Marks}</Typography>
+            )}
           </Grid>
           <Grid item>
             {props.data.BTech_Marks && (
@@ -112,18 +112,18 @@ export default function ProfileItem(props) {
           <Typography primary="Skills">Address</Typography>
         </Box>
         <Typography variant="body2" sx={{ m: 1 }} color="text.secondary">
-          {props.data.Address&&props.data.Address.substring(0, 140)}
+          {props.data.Address && props.data.Address.substring(0, 140)}
         </Typography>
       </CardContent>
       <Divider sx={{ m: 0 }} />
       <CardActions sx={{ float: "right", display: "flex" }} disableSpacing>
         <Tooltip title="Edit">
-          <IconButton onClick={() => props.editId(props.data)}>
+          <IconButton onClick={() => props.onEditById(props.data)}>
             <Edit />
           </IconButton>
         </Tooltip>
         <Tooltip title="Delete">
-          <IconButton onClick={() => props.delete(props.data.id)}>
+          <IconButton onClick={() => props.onDelete(props.data.id)}>
             <Delete color="red"></Delete>
           </IconButton>
         </Tooltip>

@@ -31,14 +31,40 @@ export function Steps(props) {
 }
 
 export default function Form(props) {
-  const [formNo, setFormNo] = React.useState(1);
-  const [formData, setFormData] = React.useState({BirthDate:"2017-05-24"});
+  const [formIndex, setFormIndex] = React.useState(0);
+  const [formData, setFormData] = React.useState({ BirthDate: "2017-05-24" });
 
-  const handleOnSubmit = () => {
-    if (props.obj !== undefined) {
+  const formsArry = [
+    <PersonalDetailsForm
+      currentProfileData={props.currentProfileData}
+      setFormData={setFormData}
+      setFormIndex={setFormIndex}
+    />,
+    <AccademicDetailsForm
+      currentProfileData={props.currentProfileData}
+      setFormData={setFormData}
+      setFormIndex={setFormIndex}
+    />,
+    <ContactForm
+      currentProfileData={props.currentProfileData}
+      setFormData={setFormData}
+      setFormIndex={setFormIndex}
+    />,
+    <Button
+    variant="contained"
+    sx={{ m: 2 }}
+    onClick={() => handleSubmit()}
+  >
+    Confirm ? &gt;
+  </Button>
+  ];
+  const handleSubmit = () => {
+    if (props.currentProfileData !== undefined) {
       props.addData((data) => {
         const newData = [...data];
-        const index = newData.findIndex((val) => val.id === props.obj.id);
+        const index = newData.findIndex(
+          (val) => val.id === props.currentProfileData.id
+        );
         newData[index] = {
           ...newData[index],
           ...formData,
@@ -62,7 +88,7 @@ export default function Form(props) {
 
   const clearForm = () => {
     setFormData({});
-    setFormNo(1);
+    setFormIndex(1);
     props.setDisplayForm(false);
   };
   return (
@@ -82,39 +108,11 @@ export default function Form(props) {
         alignItems: "center",
       }}
     >
-      <Steps step={formNo}></Steps>
-      {formNo === 1 && (
-        <Form1
-          obj={props.obj}
-          setFormData={setFormData}
-          setForm={setFormNo}
-        ></Form1>
-      )}
-      {formNo === 2 && (
-        <Form2
-          obj={props.obj}
-          setFormData={setFormData}
-          setForm={setFormNo}
-        ></Form2>
-      )}
-      {formNo === 3 && (
-        <Form3
-          obj={props.obj}
-          setFormData={setFormData}
-          setForm={setFormNo}
-        ></Form3>
-      )}
-      <Box>
-        {formNo === 4 && (
-          <Button
-            variant="contained"
-            sx={{ m: 2 }}
-            onClick={() => handleOnSubmit()}
-          >
-            Confirm ? &gt;
-          </Button>
-        )}
-
+      <Steps step={formIndex}></Steps>
+  
+      
+      <Box style={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+      {formsArry[formIndex]}
         <Button
           sx={{ marginTop: "1px  " }}
           onClick={() => {
@@ -129,7 +127,7 @@ export default function Form(props) {
   );
 }
 
-export const Form1 = (props) => {
+export const PersonalDetailsForm = (props) => {
   const [name, setName] = useState("");
   const dateFormatter = Intl.DateTimeFormat("sv-SE");
   return (
@@ -150,7 +148,11 @@ export const Form1 = (props) => {
           label="Name"
           name="Name"
           style={{ width: "300px" }}
-          defaultValue={props.obj !== undefined ? props.obj.Name : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.Name
+              : ""
+          }
           onChange={(e) => {
             props.setFormData((Data) => ({
               ...Data,
@@ -167,8 +169,11 @@ export const Form1 = (props) => {
           type="date"
           style={{ width: "300px" }}
           defaultValue={
-            props.obj !== undefined && props.obj.BirthDate !== undefined
-              ? dateFormatter.format(new Date(props.obj.BirthDate))
+            props.currentProfileData !== undefined &&
+            props.currentProfileData.BirthDate !== undefined
+              ? dateFormatter.format(
+                  new Date(props.currentProfileData.BirthDate)
+                )
               : "2017-05-24"
           }
           onChange={(e) =>
@@ -179,14 +184,17 @@ export const Form1 = (props) => {
           }
         />
         <TextField
-          
           id="outlined-multiline-static"
           label="About"
           name="About"
           multiline
           style={{ width: "300px" }}
           minRows={4}
-          defaultValue={props.obj !== undefined ? props.obj.About : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.About
+              : ""
+          }
           onChange={(e) =>
             props.setFormData((Data) => ({
               ...Data,
@@ -199,8 +207,8 @@ export const Form1 = (props) => {
         variant="contained"
         sx={{ margin: "2px 125px", height: "35px", minWidth: "80px" }}
         onClick={() => {
-          name !== "" || props.obj !== undefined
-            ? props.setForm(2)
+          name !== "" || props.currentProfileData !== undefined
+            ? props.setFormIndex(1)
             : alert("You Have to Enter Name Atleast");
         }}
       >
@@ -210,7 +218,7 @@ export const Form1 = (props) => {
   );
 };
 
-export function Form2(props) {
+export function AccademicDetailsForm(props) {
   return (
     <div>
       <div>
@@ -219,7 +227,11 @@ export function Form2(props) {
           label="SSC Marks"
           name="SSC_Marks"
           type="number"
-          defaultValue={props.obj !== undefined ? props.obj.SSC_Marks : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.SSC_Marks
+              : ""
+          }
           onChange={(e) =>
             props.setFormData((Data) => ({
               ...Data,
@@ -233,7 +245,11 @@ export function Form2(props) {
           type="number"
           label="HSC Marks"
           name={"HSC_Marks"}
-          defaultValue={props.obj !== undefined ? props.obj.HSC_Marks : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.HSC_Marks
+              : ""
+          }
           onChange={(e) =>
             props.setFormData((Data) => ({
               ...Data,
@@ -246,7 +262,11 @@ export function Form2(props) {
           label="BTech Marks"
           name="BTech_Marks"
           type="number"
-          defaultValue={props.obj !== undefined ? props.obj.BTech_Marks : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.BTech_Marks
+              : ""
+          }
           onChange={(e) => {
             props.setFormData((Data) => ({
               ...Data,
@@ -255,7 +275,7 @@ export function Form2(props) {
           }}
         />
         <SkillsCkeckBox
-          skill={props.obj}
+          skill={props.currentProfileData}
           formData={props.setFormData}
         ></SkillsCkeckBox>
       </div>
@@ -264,13 +284,13 @@ export function Form2(props) {
         variant="contained"
         sx={{ margin: "2px 125px" }}
         onClick={() => {
-          if (props.obj) {
-            props.setForm(3);
+          if (props.currentProfileData) {
+            props.setFormIndex(2);
             return;
           }
           props.setFormData((data) => {
             if (data && data.Skills && data.Skills.length > 0) {
-              props.setForm(3);
+              props.setFormIndex(2);
             } else {
               alert("You have to add atleast one skill");
             }
@@ -284,7 +304,7 @@ export function Form2(props) {
   );
 }
 
-export const Form3 = (props) => {
+export const ContactForm = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -294,7 +314,11 @@ export const Form3 = (props) => {
           name="Phone"
           style={{ width: "320px" }}
           type="phone"
-          defaultValue={props.obj !== undefined ? props.obj.Phone : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.Phone
+              : ""
+          }
           onChange={(e) =>
             props.setFormData((Data) => ({
               ...Data,
@@ -311,7 +335,11 @@ export const Form3 = (props) => {
           maxRows={8}
           name="Address"
           type="address"
-          defaultValue={props.obj !== undefined ? props.obj.Address : ""}
+          defaultValue={
+            props.currentProfileData !== undefined
+              ? props.currentProfileData.Address
+              : ""
+          }
           onChange={(e) =>
             props.setFormData((Data) => ({
               ...Data,
@@ -323,7 +351,7 @@ export const Form3 = (props) => {
       <Button
         variant="contained"
         sx={{ margin: "2px 125px" }}
-        onClick={() => props.setForm(4)}
+        onClick={() => props.setFormIndex(3)}
       >
         Submit
       </Button>
@@ -343,16 +371,18 @@ export const SkillsCkeckBox = (props) => {
             "You to keep atleast one skill...Select any other skills to remove this skill"
           );
         } else {
-          setCheckList((data) =>{ const arr= data.filter((item) => item !== e.target.name); return arr;});
+          setCheckList((data) => {
+            const arr = data.filter((item) => item !== e.target.name);
+            return arr;
+          });
         }
       }
     } else {
-      if(checkList.length>2){
-alert("You Can Add Maximum 3 Skills")
-      }else{
- checkList.push(e.target.name);
+      if (checkList.length > 2) {
+        alert("You Can Add Maximum 3 Skills");
+      } else {
+        checkList.push(e.target.name);
       }
-     
     }
 
     props.formData((data) => ({ ...data, Skills: checkList }));
