@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { AddCircle, Person2Rounded } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -49,14 +50,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function ToolBar(props) {
-  const handleSearch = (query) => {
-    props.data((data) =>
-      data.filter((val) => 
-        val.Name.toUpperCase().indexOf(query.toUpperCase()) > -1)
-    );
-  };
 
- 
+
+  
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -71,18 +68,7 @@ export default function ToolBar(props) {
             <Person2Rounded></Person2Rounded>
           </IconButton>
 
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              width="100%"
-              style={{ width: "100%" }}
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-          </Search>
+          
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: "flex" } }}>

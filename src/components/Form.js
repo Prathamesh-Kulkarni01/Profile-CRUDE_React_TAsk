@@ -32,7 +32,7 @@ export function Steps(props) {
 
 export default function Form(props) {
   const [formNo, setFormNo] = React.useState(1);
-  const [formData, setFormData] = React.useState({});
+  const [formData, setFormData] = React.useState({BirthDate:"2017-05-24"});
 
   const handleOnSubmit = () => {
     if (props.obj !== undefined) {
@@ -49,7 +49,7 @@ export default function Form(props) {
       props.handle(false);
       return;
     } else {
-      formData.id=uuid() 
+      formData.id = uuid();
       props.addData((data) => {
         const newData = [...data];
         newData.unshift(formData);
@@ -119,7 +119,7 @@ export default function Form(props) {
           sx={{ marginTop: "1px  " }}
           onClick={() => {
             props?.handle && props.handle(false);
-            props.setDisplayForm!==undefined&&props.setDisplayForm(false);
+            props.setDisplayForm !== undefined && props.setDisplayForm(false);
           }}
         >
           Cancle
@@ -162,7 +162,7 @@ export const Form1 = (props) => {
 
         <TextField
           id="outlined-password-input"
-          label="BirthDate"
+          label="Birth Date"
           name="BirthDate"
           type="date"
           style={{ width: "300px" }}
@@ -179,7 +179,7 @@ export const Form1 = (props) => {
           }
         />
         <TextField
-          required
+          
           id="outlined-multiline-static"
           label="About"
           name="About"
@@ -287,12 +287,12 @@ export function Form2(props) {
 export const Form3 = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
-      <div>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <TextField
           id="outlined-password-input"
           label="Phone"
           name="Phone"
-          style={{ width: "300px" }}
+          style={{ width: "320px" }}
           type="phone"
           defaultValue={props.obj !== undefined ? props.obj.Phone : ""}
           onChange={(e) =>
@@ -307,7 +307,7 @@ export const Form3 = (props) => {
           label="Address"
           id="outlined-multiline-static"
           multiline
-          style={{ width: "300px" }}
+          style={{ width: "320px" }}
           maxRows={8}
           name="Address"
           type="address"
@@ -343,11 +343,16 @@ export const SkillsCkeckBox = (props) => {
             "You to keep atleast one skill...Select any other skills to remove this skill"
           );
         } else {
-          setCheckList((data) => data.filter((item) => item !== e.target.name));
+          setCheckList((data) =>{ const arr= data.filter((item) => item !== e.target.name); return arr;});
         }
       }
     } else {
-      checkList.push(e.target.name);
+      if(checkList.length>2){
+alert("You Can Add Maximum 3 Skills")
+      }else{
+ checkList.push(e.target.name);
+      }
+     
     }
 
     props.formData((data) => ({ ...data, Skills: checkList }));
