@@ -174,7 +174,7 @@ export const PersonalDetailsForm = (props) => {
               ? dateFormatter.format(
                   new Date(props.currentProfileData.BirthDate)
                 )
-              : "2017-05-24"
+              : ""+new Date().toISOString().slice(0, 10)
           }
           onChange={(e) =>
             props.setFormData((Data) => ({
@@ -378,11 +378,9 @@ export const SkillsCkeckBox = (props) => {
         }
       }
     } else {
-      if (checkList.length > 2) {
-        alert("You Can Add Maximum 3 Skills");
-      } else {
+      
         checkList.push(e.target.name);
-      }
+      
     }
 
     props.formData((data) => ({ ...data, Skills: checkList }));

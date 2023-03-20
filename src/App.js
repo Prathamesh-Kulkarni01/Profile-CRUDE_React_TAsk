@@ -31,7 +31,11 @@ function App() {
 
   return (
     <div className="App">
-      <ToolBar savedData={profiles} data={setProfiles} setDisplayForm={setDisplayForm}></ToolBar>
+      <ToolBar
+        savedData={profiles}
+        data={setProfiles}
+        setDisplayForm={setDisplayForm}
+      ></ToolBar>
 
       <Modal
         open={open}
@@ -50,10 +54,7 @@ function App() {
 
       <Container>
         {displayForm === true ? (
-          <Form
-            addData={setProfiles}
-            setDisplayForm={setDisplayForm}
-          ></Form>
+          <Form addData={setProfiles} setDisplayForm={setDisplayForm}></Form>
         ) : (
           ""
         )}
@@ -98,8 +99,7 @@ const Container = styled("div")(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
   padding: "20px",
-  minHeight: "100vh",
-  justifyContent: "center",
+  minHeight: "100vh",  justifyContent: "center",
 
   backgroundColor: "#edf1ff",
 }));

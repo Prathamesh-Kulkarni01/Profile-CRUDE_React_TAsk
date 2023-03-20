@@ -7,7 +7,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Business, Code, Delete, Edit } from "@mui/icons-material";
 import {
@@ -96,9 +95,10 @@ export default function ProfileItem(props) {
             overflow="auto"
             justifyContent="center"
             spacing={1}
+            sx={{display:'flex',flexWrap:'wrap'}}
           >
             {props.data.Skills.map((val) => {
-              return <Chip key={val} label={val} />;
+              return <Chip sx={{mt:'2px'}} key={val} label={val} />;
             })}
           </Stack>
         </Box>
